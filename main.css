@@ -1,0 +1,18 @@
+.newDiv {
+    padding: 15px;
+    border: 1px solid #d6e9c6;
+    border-radius: 4px;
+    color: #3c763d;
+    background-color: #dff0d8;
+}
+body {
+    height: 100vh;
+    display: flex;
+}
+
+.city__base-options {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
