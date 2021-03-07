@@ -9,6 +9,7 @@ window.addEventListener('load', async e => {
         weightOptionsNode = citiesTemplate.content.querySelector('.weight-options'),
         jsonHref = window.location.href.replace('app.html', 'cities_list.json'),
         weightOptions=document.getElementsByClassName('weight-options'),
+        citiesTitle=document.querySelector('.cities__title'),
         emptyField=document.querySelector('.empty_field');
 
 
@@ -31,16 +32,18 @@ window.addEventListener('load', async e => {
 
 
     citiesSelect.addEventListener('click', ({ target }) => {
+
         if (target.tagName === 'BUTTON') {
             const closestParentCity = target.closest('.city'),
-                parentBaseOptions = closestParentCity.querySelector('.base-options'),
-                cityOption = closestParentCity.querySelector('.city__option'),
+                parentBaseOptions = closestParentCity.querySelector('.base-options');
+                console.log('parentBaseOptions', parentBaseOptions);
+               const cityOption = closestParentCity.querySelector('.city__option'),
                 cityName = cityOption.textContent,
                 cityId = cityOption.value;
 
             (target.dataset.action === 'add-city' || target.dataset.action === 'remove-city') && addOrRemoveBaseOptions({ parentBaseOptions, target, cityName, cityId });
             (target.dataset.action === 'add-cost' || target.dataset.action === 'remove-cost') && addOrRemoveWeightOptions({ parentBaseOptions, target, cityName });
-
+            console.log('parentBaseOptions', parentBaseOptions);
         }
     });
 
@@ -62,7 +65,10 @@ window.addEventListener('load', async e => {
     }
 
     function addOrRemoveBaseOptions({ parentBaseOptions, target: button, cityName, cityId }) {
+
         if (button.dataset.action === 'add-city') {
+
+            console.log('parentBaseOptions', parentBaseOptions);
             taxZones[cityName] = {
                 'rate_area_id': cityId,
                 'base_charge_value': null,
@@ -70,30 +76,27 @@ window.addEventListener('load', async e => {
         };
             button.dataset.action = 'remove-city';
             button.textContent = 'Удалить';
-           
-            function saveCity() {
-
-              // emptyField.appendChild(citiesSelect);
-
-            }
-            saveCity();
 
             if (!parentBaseOptions) {
+                console.log('parentBaseOptions', parentBaseOptions);
                let options = document.importNode(baseOptionsNode, true);
                 button.parentNode.append(options);
+
                 const addBaseCost = button.parentNode.querySelector('.base-options__input');
-                addBaseCost.addEventListener('input',(e) => {
+                addBaseCost.addEventListener('change',(e) => {
                     taxZones[cityName]['base_charge_value']=e.target.value;
                     let baseCost=taxZones[cityName]['base_charge_value'];
                     console.log( baseCost);
+                    console.log('taxZones',taxZones);
                 });
             }
         } else {
+
             delete taxZones[cityName];
             button.dataset.action = 'add-city';
             button.textContent = 'Добавить';
             if (parentBaseOptions) button.parentNode.removeChild(parentBaseOptions);
-
+            console.log('parentBaseOptions', parentBaseOptions);
         }
     }
 
@@ -121,7 +124,7 @@ window.addEventListener('load', async e => {
                 function calculateCost () {
                     let summ=parseInt(taxZones[cityName]['base_charge_value']) + parseInt(newObj['charge_value']);
                     let finalCost=extraWeight.querySelector('.weight-options__output');
-                    finalCost.innerHTML='Итоговая стоимость равна=' + summ;
+                    finalCost.innerHTML='Итоговая стоимость равна=' + summ +'р';
 
                 }
                 calculateCost();
@@ -130,7 +133,6 @@ window.addEventListener('load', async e => {
             taxZones[cityName]['extra_charges'].push(newObj);
             //добавляем свойство 'extra_charges' в объект [cityName] объекта taxZones
             console.log('addArray',taxZones[cityName]); //создается объект с присвоеными свойствами
-
 
         }
 

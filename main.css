@@ -7,12 +7,28 @@
 }
 body {
     height: 100vh;
+    /* width: 100%; */
     display: flex;
+    justify-content: center;
+}
+.cities {
+    display: flex;
+}
+.cities__input {
+    height: 40px;
+    width: 80vw;
 }
 
-.city__base-options {
-    display: flex;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
+html {
+    width: 100%;
 }
+
+
+/*.cities__city.city {*/
+/*    !* position: absolute; *!*/
+/*    display: none;*/
+/*}*/
+
+/*.cities__city.city:first-child {*/
+/*    display: block;*/
+/*}*/
